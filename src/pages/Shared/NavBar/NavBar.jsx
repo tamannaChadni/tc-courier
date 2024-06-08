@@ -1,21 +1,36 @@
+import { Link } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
+import { useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { AiOutlineMenu } from 'react-icons/ai';
+import avatarImg from '../../../assets/images/placeholder.jpg'
+import toast from "react-hot-toast";
 
 const NavBar = () => {
+  // const axiosSecure = useAxiosSecure()
+  const { user, logOut } = useAuth()
+  const [isOpen, setIsOpen] = useState(false)
 
-    // const navOptions = <>
-    //     <li><a>Item 555</a></li>
-    //     <li tabIndex={0}>
-    //         <a className="justify-between">
-    //             Parent
-    //             <svg className="fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
-    //         </a>
-    //         <ul className="p-2">
-    //             <li><a>Submenu 1</a></li>
-    //             <li><a>Submenu 2</a></li>
-    //         </ul>
-    //     </li>
-    //     <li><a>Item 3</a></li>
-    // </>
-    // navbar   text-white
+  // try {
+  //   const currentUser = {
+  //     email: user?.email,
+  //     role: user?.role,
+      
+  //   }
+  //   const { data } =  axiosSecure.put(`/user`, currentUser)
+  //   console.log(data)
+  //   if (data.modifiedCount > 0) {
+  //     toast.success('Success! Please wait for admin confirmation')
+  //   } else {
+  //     toast.success('Please!, Wait for admin approval👊')
+  //   }
+  // } 
+
+  // catch (err) {
+  //   console.log(err)
+  //   toast.error(err.message)
+  // }
+   
     return (
         
             <div className="navbar fixed z-10 bg-opacity-30 max-w-screen-xl bg-base-100">
@@ -34,22 +49,71 @@ const NavBar = () => {
     </div>
     {/* dropdown */}
     <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-rounded btn-sm avatar text-white bg-orange-600">
-        Login
-        {/* <div className="w-10 rounded-full">
-          <img alt="Tailwind CSS Navbar component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-        </div> */}
-      </div>
-      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li>
-          <a className="justify-between">
-           User name
+    <div
+                  onClick={() => setIsOpen(!isOpen)}
+                  className='p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
+                >
+                  <AiOutlineMenu />
+                  <div className='hidden md:block'>
+                    {/* Avatar */}
+                    <img
+                      className='rounded-full'
+                      referrerPolicy='no-referrer'
+                      src={user && user.photoURL ? user.photoURL : avatarImg}
+                      alt='profile'
+                      height='30'
+                      width='30'
+                    />
+                  </div>
+                </div>
            
-          </a>
-        </li>
-        <li><a>Dashboard</a></li>
-        <li><a>Logout</a></li>
-      </ul>
+                {isOpen && (
+                <div className='absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-12 text-sm'>
+                  <div className='flex flex-col cursor-pointer'>
+                    <Link
+                      to='/'
+                      className='block md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                    >
+                      Home
+                    </Link>
+
+                    {user ? (
+                      <>
+                        <Link
+                          to='/dashboard'
+                          className='block px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                        >
+                          Dashboard
+                        </Link>
+                        <div
+                          onClick={logOut}
+                          className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
+                        >
+                          Logout
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          to='/login'
+                          className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                        >
+                          Login
+                        </Link>
+                        <Link
+                          to='/signup'
+                          className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                        >
+                          Sign Up
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+                      
+                                
+                           
     </div>
   </div>
 </div>

@@ -18,40 +18,54 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
-    const name = form.name.value;
-    const email = form.email.value;
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
     const password = form.password.value;
+    const role = form.role.value;
     const image = form.image.files[0];
+
+    if (!name || !email || !password || !role || !image) {
+      toast.error("All fields are required!");
+      return;
+    }
 
     try {
       setLoading(true);
+
       // 1. Upload image and get image url
       const image_url = await imageUpload(image);
       console.log(image_url);
-      //2. User Registration
+
+      // 2. User Registration
       const result = await createUser(email, password);
       console.log(result);
 
       // 3. Save username and photo in firebase
       await updateUserProfile(name, image_url);
-      navigate("/");
+
       toast.success("Signup Successful");
+      navigate("/");
     } catch (err) {
-      console.log(err);
+      console.error(err);
       toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   // handle google signin
   const handleGoogleSignIn = async () => {
     try {
+      setLoading(true);
       await signInWithGoogle();
 
-      navigate("/");
       toast.success("Signup Successful");
+      navigate("/");
     } catch (err) {
-      console.log(err);
+      console.error(err);
       toast.error(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,7 +79,7 @@ const SignUp = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block mb-2 text-sm">
+              <label htmlFor="name" className="block mb-2 text-sm">
                 Name
               </label>
               <input
@@ -74,7 +88,7 @@ const SignUp = () => {
                 id="name"
                 placeholder="Enter Your Name Here"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-orange-500 bg-gray-200 text-gray-900"
-                data-temp-mail-org="0"
+                required
               />
             </div>
             <div>
@@ -90,6 +104,23 @@ const SignUp = () => {
               />
             </div>
             <div>
+              <label htmlFor="role" className="block mb-2 text-sm">
+                Select Role
+              </label>
+              <select
+                name="role"
+                id="role"
+                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-orange-500 bg-gray-200 text-gray-900"
+                required
+              >
+                <option value="" disabled selected>
+                  Role
+                </option>
+                <option value="user">User</option>
+                <option value="deliveryman">Deliveryman</option>
+              </select>
+            </div>
+            <div>
               <label htmlFor="email" className="block mb-2 text-sm">
                 Email address
               </label>
@@ -100,7 +131,6 @@ const SignUp = () => {
                 required
                 placeholder="Enter Your Email Here"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-orange-500 bg-gray-200 text-gray-900"
-                data-temp-mail-org="0"
               />
             </div>
             <div>
@@ -138,7 +168,7 @@ const SignUp = () => {
         <div className="flex items-center pt-4 space-x-1">
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
           <p className="px-3 text-sm dark:text-gray-400">
-            Signup with social accounts
+            Signup with social accounts if you are user only
           </p>
           <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
         </div>
@@ -148,7 +178,6 @@ const SignUp = () => {
           className="disabled:cursor-not-allowed flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer"
         >
           <FcGoogle size={32} />
-
           <p>Continue with Google</p>
         </button>
         <p className="px-6 text-sm text-center text-gray-400">
