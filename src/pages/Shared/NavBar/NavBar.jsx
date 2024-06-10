@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { useState } from "react";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+// import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { AiOutlineMenu } from 'react-icons/ai';
 import avatarImg from '../../../assets/images/placeholder.jpg'
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 const NavBar = () => {
   // const axiosSecure = useAxiosSecure()
