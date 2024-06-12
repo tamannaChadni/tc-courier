@@ -11,7 +11,7 @@ const MyParcels = () => {
   useEffect(() => {
     const fetchParcels = async () => {
       try {
-        const response = await axios.get(`/parcel?userId=${user.id}`);
+        const response = await axios.get(`/parcel?${user.id}`);
         setParcels(response.data);
         setLoading(false);
       } catch (error) {

@@ -6,6 +6,7 @@ import { axiosCommon } from '../../../hooks/useAxiosCommon';
 
 const BookParcel = () => {
   const { user } = useAuth()
+  // console.log(user);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -20,7 +21,7 @@ const BookParcel = () => {
     deliveryAddressLongitude: '',
     price: 0,
   });
-
+console.log(formData);
   useEffect(() => {
     // Update price when parcel weight changes
     const weight = parseFloat(formData.parcelWeight);
@@ -41,7 +42,7 @@ const BookParcel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosCommon.post('/parcel', { ...formData, status: 'pending' });
+      await axiosCommon.post('/parcel', { ...formData });
       alert('Parcel booked successfully!');
     } catch (error) {
       console.error('Error booking parcel:', error);
@@ -58,7 +59,7 @@ const BookParcel = () => {
           <input
             type="text"
             name="name"
-            value={formData.name}
+            value={formData.displayName}
             readOnly
             className="w-full px-3 py-2 border rounded"
           />
