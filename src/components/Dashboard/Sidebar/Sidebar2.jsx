@@ -1,31 +1,47 @@
 import { useState } from 'react'
 import { GrLogout } from 'react-icons/gr'
-import { FcSettings } from 'react-icons/fc'
 import { AiOutlineBars } from 'react-icons/ai'
-import { BsGraphUp } from 'react-icons/bs'
-import useAuth from '../../../hooks/useAuth'
 import { Link } from 'react-router-dom'
+import useAuth from '../../../hooks/useAuth'
 import useRole from '../../../hooks/useRole'
-import MenuItem from './Menu/MenuItem'
-import AdminMenu from './Menu/AdminMenu'
-import ToggleBtn from '../../Shared/Button/ToggleBtn'
+import LoadingSpinner from '../../Shared/LoadingSpinner'
 import UserMenu from './Menu/UserMenu'
 import DeliveryManMenu from './Menu/DelivermanMenu'
+import AdminMenu from './Menu/AdminMenu'
+
+// const UserMenu = () => (
+//   <nav>
+//     <Link to="book-parcel" className="menu-item">Book a Parcel</Link>
+//     <Link to="my-parcels" className="menu-item">My Parcels</Link>
+//     <Link to="my-profile" className="menu-item">My Profile</Link>
+//   </nav>
+// );
+
+// const DeliveryManMenu = () => (
+//   <nav>
+//     <Link to="my-delivery-list" className="menu-item">My Delivery List</Link>
+//     <Link to="my-reviews" className="menu-item">My Reviews</Link>
+//   </nav>
+// );
+
+// const AdminMenu = () => (
+//   <nav>
+//     <Link to="all-parcels" className="menu-item">All Parcels</Link>
+//     <Link to="all-users" className="menu-item">All Users</Link>
+//     <Link to="all-delivery-men" className="menu-item">All Delivery Men</Link>
+//     <Link to="/dashboard" className="menu-item">Statistics</Link>
+//   </nav>
+// );
 
 const Sidebar = () => {
   const { logOut } = useAuth()
   const [isActive, setActive] = useState(false)
-  const [toggle, setToggle] = useState(true)
   const [role, isLoading] = useRole()
-  console.log(role, isLoading)
-  // Sidebar Responsive Handler
+  
   const handleToggle = () => {
     setActive(!isActive)
   }
 
-  const toggleHandler = event => {
-    setToggle(event.target.checked)
-  }
   return (
     <>
       {/* Small Screen Navbar */}
@@ -33,8 +49,7 @@ const Sidebar = () => {
         <div>
           <div className='block cursor-pointer p-4 font-bold'>
             <Link to='/'>
-            <p>TC Courier</p>
-              
+              <p>TC Courier</p>
             </Link>
           </div>
         </div>
@@ -57,56 +72,34 @@ const Sidebar = () => {
           <div>
             <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-rose-100 mx-auto'>
               <Link to='/'>
-              <p>TC Courier</p>
-                
+                <p className='font-bold text-2xl text-orange-500'>TC Courier</p>
               </Link>
             </div>
           </div>
 
           {/* Nav Items */}
           <div className='flex flex-col justify-between flex-1 mt-6'>
-            {/* Conditional toggle button here.. */}
-            {role === 'host' && (
-              <ToggleBtn toggleHandler={toggleHandler} toggle={toggle} />
+            {isLoading ? 
+            //   <p>Loading...</p>
+           (<LoadingSpinner/>) 
+            : (
+              <>
+                {role === 'user' && <UserMenu />}
+                {role === 'deliveryman' && <DeliveryManMenu />}
+                {role === 'admin' && <AdminMenu />}
+              </>
             )}
-
-            {/*  Menu Items */}
-            <nav>
-              {/* Statistics */}
-              <MenuItem
-                label='Statistics'
-                address='/dashboard'
-                icon={BsGraphUp}
-              />
-              {role === 'user' && <UserMenu />}
-              {role === 'deliveryman' ? (
-                toggle ? (
-                  <DeliveryManMenu />
-                ) : (
-                    <UserMenu />
-                )
-              ) : undefined}
-              {role === 'admin' && <AdminMenu />}
-            </nav>
           </div>
         </div>
 
         <div>
           <hr />
 
-          {/* Profile Menu */}
-          <MenuItem
-            label='Profile'
-            address='/dashboard/profile'
-            icon={FcSettings}
-          />
-
           <button
             onClick={logOut}
-            className='flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
+            className='flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300 hover:text-gray-700 transition-colors duration-300 transform'
           >
             <GrLogout className='w-5 h-5' />
-
             <span className='mx-4 font-medium'>Logout</span>
           </button>
         </div>

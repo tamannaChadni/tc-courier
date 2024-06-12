@@ -3,9 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../hooks/useAuth.js";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
-import { imageUpload } from "../../api/utils";
-import axios from "axios";
-
+import { imageUpload } from "../../api/utils/index.js";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -36,23 +34,14 @@ const SignUp = () => {
 
       // 1. Upload image and get image url
       const image_url = await imageUpload(image);
+      // console.log(image_url);
 
       // 2. User Registration
       const result = await createUser(email, password);
+      console.log(result);
 
       // 3. Save username and photo in firebase
       await updateUserProfile(name, image_url);
-
-      // 4. Send user data to MongoDB
-      const userData = {
-        uid: result.user.uid,
-        name,
-        email,
-        role,
-        image_url,
-      };
-
-      await axios.post("http://localhost:8000/users", userData);
 
       toast.success("Signup Successful");
       navigate("/");
@@ -68,17 +57,7 @@ const SignUp = () => {
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);
-      const result = await signInWithGoogle();
-      
-      const userData = {
-        uid: result.user.uid,
-        name: result.user.displayName,
-        email: result.user.email,
-        role: result.user.role,
-        image_url: result.user.photoURL,
-      };
-
-      await axios.post("http://localhost:8000/users", userData);
+      await signInWithGoogle();
 
       toast.success("Signup Successful");
       navigate("/");

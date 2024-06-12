@@ -1,10 +1,16 @@
-import { Link } from 'react-router-dom';
+
+
+import { FaUserCog } from 'react-icons/fa'
+import MenuItem from './MenuItem'
 
 const DeliveryManMenu = () => (
-  <nav>
-    <Link to="/my-delivery-list" className="menu-item">My Delivery List</Link>
-    <Link to="/my-reviews" className="menu-item">My Reviews</Link>
-  </nav>
+ 
+    <>
+      <MenuItem icon={FaUserCog} label='My Delivery List' address='my-delivery-list' />
+      <MenuItem icon={FaUserCog} label='My Reviews' address='my-reviews' />
+      
+    </>
+    
 );
 
 export default DeliveryManMenu;

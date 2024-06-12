@@ -54,7 +54,7 @@ const AllParcels = () => {
 
   const handleAssign = async () => {
     try {
-      await axios.put(`/parcels/${selectedParcel._id}/assign`, {
+      await axios.put(`/parcels/:_id}`, {
         deliveryManId: selectedDeliveryMan,
         approximateDeliveryDate,
       });

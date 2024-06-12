@@ -16,6 +16,10 @@ import MyParcels from "../pages/DashboardPage/User/MyParcels";
 import MyReviews from "../pages/DashboardPage/DeliveryMan/MyReviews";
 import MyDeliveryList from "../pages/DashboardPage/DeliveryMan/MyDeliveryList";
 import BookParcel from "../pages/DashboardPage/User/BookParcel";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import DeliverymanRoute from "./DeliverymanRoute";
+import UserRoute from "./UserRoute";
 
 
   export const router = createBrowserRouter([
@@ -37,41 +41,88 @@ import BookParcel from "../pages/DashboardPage/User/BookParcel";
       children: [
         {
           index: true,
-            element: <Statistics></Statistics>
+            element: (<PrivateRoute >
+              <AdminRoute>
+            <Statistics></Statistics>
+            </AdminRoute>
+            </PrivateRoute>),
         },
         {
           path:"all-delivery-men",
-          element: <AllDeliveryMan></AllDeliveryMan>
+          element: (<PrivateRoute>
+            <AdminRoute>
+          <AllDeliveryMan>
+          </AllDeliveryMan>
+          </AdminRoute>
+          </PrivateRoute>),
         },
         {
           path:"all-parcels",
-          element: <AllParcels></AllParcels>
+          element: (<PrivateRoute >
+            <AdminRoute>
+          <AllParcels></AllParcels>
+          </AdminRoute>
+          </PrivateRoute>),
         },
         {
           path:"all-users",
-          element: <AllUsers></AllUsers>
+          element:(<PrivateRoute >
+            <AdminRoute>
+          <AllUsers></AllUsers>
+          </AdminRoute>
+          </PrivateRoute>),
+           
         },
         // deliveryman
         {
           path:"my-delivery-list",
-          element: <MyDeliveryList></MyDeliveryList>
+
+          element: 
+          (<PrivateRoute >
+            <DeliverymanRoute>
+            <MyDeliveryList></MyDeliveryList>
+            </DeliverymanRoute>
+            </PrivateRoute>),
         },
         {
           path:"my-reviews",
-          element: <MyReviews></MyReviews>
+          element:  (<PrivateRoute >
+            <DeliverymanRoute>
+            <MyReviews></MyReviews>
+            </DeliverymanRoute>
+            </PrivateRoute>),
         },
         // user
         {
           path:"book-parcel",
-          element: <BookParcel></BookParcel>
+          element: 
+          (
+            <PrivateRoute >
+              <UserRoute>
+              <BookParcel></BookParcel>
+              </UserRoute>
+            </PrivateRoute>
+          ),
+          
         },
         {
           path:"my-parcels",
-          element: <MyParcels></MyParcels>
+          element: (
+            <PrivateRoute >
+              <UserRoute>
+              <MyParcels></MyParcels> 
+              </UserRoute>
+              </PrivateRoute>
+          ),
         },
         {
           path:"my-profile",
-          element: <MyProfile></MyProfile>
+          element:(<PrivateRoute >
+            <UserRoute>
+            <MyProfile></MyProfile>
+            </UserRoute>
+            </PrivateRoute>
+            ),
         },
       ]
     },

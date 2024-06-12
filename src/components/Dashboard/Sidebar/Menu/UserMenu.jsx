@@ -1,11 +1,17 @@
-import { Link } from 'react-router-dom';
+import { FaUserCog } from 'react-icons/fa'
+import MenuItem from './MenuItem'
+
 
 const UserMenu = () => (
-  <nav>
-    <Link to="/book-parcel" className="menu-item">Book a Parcel</Link>
-    <Link to="/my-parcels" className="menu-item">My Parcels</Link>
-    <Link to="/my-profile" className="menu-item">My Profile</Link>
-  </nav>
+  
+<>
+      <MenuItem icon={FaUserCog} label='All ParcelsBook a Parcel' address='book-parcel' />
+      <MenuItem icon={FaUserCog} label='My Parcels' address='my-parcels' />
+      <MenuItem icon={FaUserCog} label='My Profile' address='my-profile' />
+     
+    </>
+
+    
 );
 
 export default UserMenu;

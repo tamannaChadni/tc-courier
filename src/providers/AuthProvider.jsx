@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
   // Get token from server
   const getToken = async email => {
     const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/jwt`,
+      `${import.meta.env.VITE_APP_URL}/jwt`,
       { email },
       { withCredentials: true }
     )
@@ -66,18 +66,20 @@ const AuthProvider = ({ children }) => {
   }
 
   // save user
-  const saveUser = async user => {
-    const currentUser = {
-      email: user?.email,
-      role: 'guest',
-      status: 'Verified',
-    }
-    const { data } = await axios.put(
-      `${import.meta.env.VITE_API_URL}/user`,
-      currentUser
-    )
-    return data
-  }
+  // const saveUser = async user => {
+  //   const currentUser = {
+  //     email: user?.email,
+  //     // role: 'guest',
+  //     // status: 'Verified',
+  //   }
+
+
+  //   const { data } = await axios.put(
+  //     `${import.meta.env.VITE_APP_URL}/users`,
+  //     currentUser
+  //   )
+  //   return data
+  // }
 
   // onAuthStateChange
   useEffect(() => {
@@ -85,7 +87,7 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser)
       if (currentUser) {
         getToken(currentUser.email)
-        saveUser(currentUser)
+        // saveUser(currentUser)
       }
       setLoading(false)
     })
