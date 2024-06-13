@@ -1,7 +1,8 @@
 import  { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import useAuth from '../../../hooks/useAuth';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
+import { axiosCommon } from '../../../hooks/useAxiosCommon';
 
 const MyParcels = () => {
   const { user } = useAuth();
@@ -11,7 +12,7 @@ const MyParcels = () => {
   useEffect(() => {
     const fetchParcels = async () => {
       try {
-        const response = await axios.get(`/parcel?${user.id}`);
+        const response = await axiosCommon.get('/parcel');
         setParcels(response.data);
         setLoading(false);
       } catch (error) {
@@ -64,7 +65,7 @@ const MyParcels = () => {
         </thead>
         <tbody>
           {parcels.map((parcel) => (
-            <tr key={parcel.id}>
+            <tr key={parcel._id}>
               <td className="border px-4 py-2">{parcel.parcelType}</td>
               <td className="border px-4 py-2">{parcel.requestedDeliveryDate}</td>
               <td className="border px-4 py-2">{parcel.approximateDeliveryDate}</td>
@@ -73,27 +74,27 @@ const MyParcels = () => {
               <td className="border px-4 py-2">{parcel.bookingStatus}</td>
               <td className="border px-4 py-2">
                 <button
-                  onClick={() => handleUpdate(parcel.id)}
+                  onClick={() => handleUpdate(parcel._id)}
                   className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
                 >
                   Update
                 </button>
                 <button
-                  onClick={() => handleCancel(parcel.id)}
+                  onClick={() => handleCancel(parcel._id)}
                   className="bg-red-500 text-white px-2 py-1 rounded mr-2"
                 >
                   Cancel
                 </button>
                 {parcel.bookingStatus === 'delivered' && (
                   <button
-                    onClick={() => handleReview(parcel.id)}
+                    onClick={() => handleReview(parcel._id)}
                     className="bg-green-500 text-white px-2 py-1 rounded mr-2"
                   >
                     Review
                   </button>
                 )}
                 <button
-                  onClick={() => handlePay(parcel.id)}
+                  onClick={() => handlePay(parcel._id)}
                   className="bg-yellow-500 text-white px-2 py-1 rounded"
                 >
                   Pay

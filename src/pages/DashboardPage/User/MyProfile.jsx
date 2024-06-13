@@ -8,10 +8,11 @@ import cover from '../../../../public/cover.webp'
 
 const MyProfile = () => {
   const { user, loading } = useAuth() || {}
-  const [ isLoading] = useRole()
-
+  const [role, isLoading] = useRole()
+  // console.log(isLoading);
+{/* <LoadingSpinner /> */}
 //   console.log(user)
-  if (isLoading || loading) return <LoadingSpinner />
+  if (isLoading || loading) return <LoadingSpinner></LoadingSpinner>
   return (
     <div className='flex justify-center items-center h-screen'>
       <Helmet>
@@ -32,9 +33,9 @@ const MyProfile = () => {
             />
           </a>
 
-          {/* <p className='p-2 uppercase px-4 text-xs text-white bg-orange-500 rounded-full'>
+          <p className='p-2 uppercase px-4 text-xs text-white bg-orange-500 rounded-full'>
             {role}
-          </p> */}
+          </p>
           <p className='mt-2 text-xl font-medium text-gray-800 '>
             User Id: {user?.uid}
           </p>

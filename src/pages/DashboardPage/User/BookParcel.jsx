@@ -3,12 +3,13 @@ import  { useState, useEffect } from 'react';
 // import axios from 'axios';
 import useAuth from '../../../hooks/useAuth';
 import { axiosCommon } from '../../../hooks/useAxiosCommon';
+import toast from 'react-hot-toast';
 
 const BookParcel = () => {
   const { user } = useAuth()
   // console.log(user);
   const [formData, setFormData] = useState({
-    name: user?.name || '',
+    name: user?.displayName || '',
     email: user?.email || '',
     phoneNumber: '',
     parcelType: '',
@@ -43,10 +44,10 @@ console.log(formData);
     e.preventDefault();
     try {
       await axiosCommon.post('/parcel', { ...formData });
-      alert('Parcel booked successfully!');
+      toast.success('Parcel booked successfully!');
     } catch (error) {
       console.error('Error booking parcel:', error);
-      alert('Failed to book parcel. Please try again.');
+      toast.error('Failed to book parcel. Please try again.');
     }
   };
 
