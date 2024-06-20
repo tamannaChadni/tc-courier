@@ -3,6 +3,7 @@ import  { useState, useEffect } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 import { axiosCommon } from '../../../hooks/useAxiosCommon';
+// import { isToday } from 'date-fns';
 
 const MyParcels = () => {
   const { user } = useAuth();
@@ -12,7 +13,8 @@ const MyParcels = () => {
   useEffect(() => {
     const fetchParcels = async () => {
       try {
-        const response = await axiosCommon.get('/parcel');
+        // const response = await axiosCommon.get('/parcel/:email');
+        const response = await axiosCommon.get(`/parcel/${user.email}`);
         setParcels(response.data);
         setLoading(false);
       } catch (error) {
@@ -22,11 +24,10 @@ const MyParcels = () => {
     };
 
     fetchParcels();
-  }, [user.id]);
+  }, [user.email]);
 
-  const handleUpdate = (parcelId) => {
-    // Handle update logic
-    console.log('Update parcel:', parcelId);
+  const handleUpdate = () => {
+    
   };
 
   const handleCancel = (parcelId) => {
@@ -56,10 +57,10 @@ const MyParcels = () => {
           <tr>
             <th className="w-1/6 py-2">Parcel Type</th>
             <th className="w-1/6 py-2">Requested Delivery Date</th>
-            <th className="w-1/6 py-2">Approximate Delivery Date</th>
-            <th className="w-1/6 py-2">Booking Date</th>
+            {/* <th className="w-1/6 py-2">Approximate Delivery Date</th> */}
+            {/* <th className="w-1/6 py-2">Booking Date</th>
             <th className="w-1/6 py-2">Delivery Men ID</th>
-            <th className="w-1/6 py-2">Booking Status</th>
+            <th className="w-1/6 py-2">Booking Status</th> */}
             <th className="w-1/6 py-2">Actions</th>
           </tr>
         </thead>
@@ -68,10 +69,15 @@ const MyParcels = () => {
             <tr key={parcel._id}>
               <td className="border px-4 py-2">{parcel.parcelType}</td>
               <td className="border px-4 py-2">{parcel.requestedDeliveryDate}</td>
-              <td className="border px-4 py-2">{parcel.approximateDeliveryDate}</td>
-              <td className="border px-4 py-2">{new Date(parcel.bookingDate).toLocaleDateString()}</td>
+              {/* <td className="border px-4 py-2">{parcel.approximateDeliveryDate}</td> */}
+              
+                  {/* <td className="border px-4 py-2">
+                {isToday(parcel.bookingDate)
+                  ? new Date().toLocaleDateString()
+                  : new Date(parcel.bookingDate).toLocaleDateString()}
+              </td>
               <td className="border px-4 py-2">{parcel.deliveryMenId || 'N/A'}</td>
-              <td className="border px-4 py-2">{parcel.bookingStatus}</td>
+              <td className="border px-4 py-2">{parcel.bookingStatus}</td> */}
               <td className="border px-4 py-2">
                 <button
                   onClick={() => handleUpdate(parcel._id)}

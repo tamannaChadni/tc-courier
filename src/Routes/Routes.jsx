@@ -12,7 +12,7 @@ import AllDeliveryMan from "../pages/DashboardPage/Admin/AllDeliveryMan";
 import AllParcels from "../pages/DashboardPage/Admin/AllParcels";
 import AllUsers from "../pages/DashboardPage/Admin/AllUsers";
 import MyProfile from "../pages/DashboardPage/User/MyProfile";
-import MyParcels from "../pages/DashboardPage/User/MyParcels";
+import MyParcels from "../pages/DashboardPage/User/MyParcels1";
 import MyReviews from "../pages/DashboardPage/DeliveryMan/MyReviews";
 import MyDeliveryList from "../pages/DashboardPage/DeliveryMan/MyDeliveryList";
 import BookParcel from "../pages/DashboardPage/User/BookParcel";

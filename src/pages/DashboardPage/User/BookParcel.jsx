@@ -60,7 +60,7 @@ console.log(formData);
           <input
             type="text"
             name="name"
-            value={formData.displayName}
+            value={formData.name}
             readOnly
             className="w-full px-3 py-2 border rounded"
           />
