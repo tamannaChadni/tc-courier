@@ -22,7 +22,7 @@ const BookParcel = () => {
     deliveryAddressLongitude: '',
     price: 0,
   });
-console.log(formData);
+// console.log(formData);
   useEffect(() => {
     // Update price when parcel weight changes
     const weight = parseFloat(formData.parcelWeight);

@@ -37,9 +37,9 @@ const MyParcels = () => {
     setIsModalOpen(true);
   };
 
-  const handleCancel = (parcelId) => {
-    console.log("Cancel parcel:", parcelId);
-  };
+  // const handleCancel = (parcelId) => {
+  //   console.log("Cancel parcel:", parcelId);
+  // };
 
   const handleReview = (parcelId) => {
     console.log("Review parcel:", parcelId);
@@ -59,6 +59,16 @@ const MyParcels = () => {
       );
     } catch (error) {
       console.error("Error updating parcel:", error);
+    }
+  };
+
+
+  const handleCancel = async (parcelId) => {
+    try {
+      await axiosCommon.delete(`/parcel/:id}`);
+      setParcels(parcels.filter((parcel) => parcel._id !== parcelId));
+    } catch (error) {
+      console.error("Error deleting parcel:", error);
     }
   };
 

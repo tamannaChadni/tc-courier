@@ -4,11 +4,16 @@ import useAuth from '../../../hooks/useAuth';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 import { axiosCommon } from '../../../hooks/useAxiosCommon';
 // import { isToday } from 'date-fns';
+import UpdateParcelModal from "../../../components/Modal/UpdateParcelModal ";
+import toast from 'react-hot-toast';
 
 const MyParcels = () => {
   const { user } = useAuth();
   const [parcels, setParcels] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedParcel, setSelectedParcel] = useState(null);
 
   useEffect(() => {
     const fetchParcels = async () => {
@@ -26,14 +31,57 @@ const MyParcels = () => {
     fetchParcels();
   }, [user.email]);
 
-  const handleUpdate = () => {
-    
+  const handleUpdate = (parcelId) => {
+    console.log("jjjj", parcelId);
+    const parcel = parcels.find((parcel) => parcel._id === parcelId);
+    console.log(parcel._id);
+    console.log(setSelectedParcel);
+    setSelectedParcel(parcel);
+    setIsModalOpen(true);
   };
 
-  const handleCancel = (parcelId) => {
-    // Handle cancel logic
-    console.log('Cancel parcel:', parcelId);
+  const handleCancel = async (parcelId) => {
+    try {
+      await axiosCommon.delete(`/parcel/${parcelId}`);
+      setParcels(parcels.filter((parcel) => parcel._id !== parcelId));
+      toast.success('Parcel deleted successfully!');
+    } catch (error) {
+      console.error("Error deleting parcel:", error);
+    }
   };
+  // const handleDelete = (_id) => {
+  //   // console.log(_id);
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "You won't be able to revert this!",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, delete it!",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       fetch(`https://moon-dining-server.vercel.app/purchase/${_id}`, {
+  //         method: "DELETE",
+  //       })
+  //         .then((res) => res.json())
+  //         .then((data) => {
+  //           console.log(data);
+  //           if (data.deletedCount > 0) {
+  //             Swal.fire(
+  //               "Deleted!",
+  //               "Your order has been deleted.",
+  //               "success"
+  //             );
+  //             // eslint-disable-next-line react/prop-types
+  //             const remainingOrder = orderFood.filter((s) => s._id !== _id);
+  //             // console.log(remainingOrder);
+  //             setOrderFood(remainingOrder);
+  //           }
+  //         });
+  //     }
+  //   });
+  // };
 
   const handleReview = (parcelId) => {
     // Handle review logic
@@ -43,6 +91,19 @@ const MyParcels = () => {
   const handlePay = (parcelId) => {
     // Handle pay logic
     console.log('Pay for parcel:', parcelId);
+  };
+
+  const handleUpdateParcel = async (updatedParcel) => {
+    try {
+      await axiosCommon.put(`/parcel/${updatedParcel._id}`, updatedParcel);
+      setParcels((prevParcels) =>
+        prevParcels.map((parcel) =>
+          parcel._id === updatedParcel._id ? updatedParcel : parcel
+        )
+      );
+    } catch (error) {
+      console.error("Error updating parcel:", error);
+    }
   };
 
   if (loading) {
@@ -110,6 +171,14 @@ const MyParcels = () => {
           ))}
         </tbody>
       </table>
+      {isModalOpen && (
+        <UpdateParcelModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          parcel={selectedParcel}
+          onUpdate={handleUpdateParcel}
+        />
+      )}
     </div>
   );
 };
