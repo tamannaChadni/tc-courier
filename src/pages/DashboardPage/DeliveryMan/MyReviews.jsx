@@ -1,9 +1,9 @@
 
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import useAuth from '../../../hooks/useAuth';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
+import { axiosCommon } from '../../../hooks/useAxiosCommon';
 
 const MyReviews = () => {
   const { user } = useAuth();
@@ -13,7 +13,7 @@ const MyReviews = () => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`/review?deliveryManId=${user.id}`);
+        const response = await axiosCommon.get(`/review?deliveryManId=${user._id}`);
         setReviews(response.data);
         setLoading(false);
       } catch (error) {

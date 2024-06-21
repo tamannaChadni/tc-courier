@@ -18,7 +18,7 @@ const AllParcels = () => {
     const fetchParcels = async () => {
       try {
         const response = await axiosCommon.get("/parcel");
-        console.log(response.data);
+        // console.log(response.data);
         setParcels(response.data);
         setLoading(false);
       } catch (error) {
