@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
+import { axiosCommon } from '../../../hooks/useAxiosCommon';
 
 const AllDeliveryMan = () => {
   const [deliveryMen, setDeliveryMen] = useState([]);
@@ -9,11 +10,11 @@ const AllDeliveryMan = () => {
   useEffect(() => {
     const fetchDeliveryMen = async () => {
       try {
-        const response = await axios.get('/delivery-men');
+        const response = await axiosCommon.get('/delivery-men');
         setDeliveryMen(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching delivery men:', error);
+        // console.error('Error fetching delivery men:', error);
         setLoading(false);
       }
     };

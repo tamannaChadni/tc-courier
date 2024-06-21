@@ -46,7 +46,7 @@ const BookParcel = () => {
       await axiosCommon.post('/parcel', { ...formData });
       toast.success('Parcel booked successfully!');
     } catch (error) {
-      console.error('Error booking parcel:', error);
+      // console.error('Error booking parcel:', error);
       toast.error('Failed to book parcel. Please try again.');
     }
   };
