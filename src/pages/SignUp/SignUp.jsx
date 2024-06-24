@@ -4,7 +4,8 @@ import useAuth from "../../hooks/useAuth.js";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { imageUpload } from "../../api/utils";
-import axios from "axios";
+
+import { axiosCommon } from "../../hooks/useAxiosCommon.jsx";
 
 
 const SignUp = () => {
@@ -52,7 +53,7 @@ const SignUp = () => {
         image_url,
       };
 
-      await axios.post("http://localhost:8000/users", userData);
+      await axiosCommon.post("/users", userData);
 
       toast.success("Signup Successful");
       navigate("/");
@@ -78,7 +79,7 @@ const SignUp = () => {
         image_url: result.user.photoURL,
       };
 
-      await axios.post("http://localhost:8000/users", userData);
+      await axiosCommon.post("/users", userData);
 
       toast.success("Signup Successful");
       navigate("/");
